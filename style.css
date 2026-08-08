@@ -1,0 +1,451 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --charcoal: #11141a;
+    --surface: #1a1418;
+    --surface-border: #2d2226;
+    --crimson: #dd3941;
+    --crimson-deep: #8b1e24;
+    --crimson-glow: rgba(221, 57, 65, 0.18);
+    --text-primary: #f1eee9;
+    --text-muted: #b3b3b3;
+    --text-dim: #7a7a7a;
+}
+
+body {
+    background-color: var(--charcoal);
+    color: #e0e0e0;
+}
+
+/* Base container: Displays the BLURRED/FADED image */
+.hero {
+    position: relative;
+    min-height: 100vh; /* Changed to full viewport height */
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Stacks navbar on top of content */
+    justify-content: space-between; /* Pushes content down and navbar up */
+    align-items: center;
+    overflow: hidden;
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('download.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Fallback blur effect layer */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: inherit;
+    filter: blur(13px) brightness(0.8);
+    transform: scale(1.2);
+    z-index: 0;
+}
+
+/* The hidden, CRYSTAL-CLEAR background image layer */
+.bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('download.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 1;
+
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 100%, transparent 100%);
+    mask-image: radial-gradient(circle at 50% 50%, transparent 100%, transparent 100%);
+}
+
+/* Navbar Layout (Now absolutely placed inside Hero) */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    position: relative;
+    z-index: 2; /* Sits on top of background layer */
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+}
+
+.logo::after {
+    content: '.';
+    color: var(--crimson);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 1.5rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 1rem;
+}
+
+.nav-links a:hover {
+    color: var(--crimson);
+}
+
+/* Content Container */
+.hero-content {
+    position: relative;
+    top: 20px; 
+    z-index: 2; 
+    padding: 4rem 2rem;
+    align-items: flex-start;
+    text-align: center;
+    min-height: 100%;
+}
+
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    
+}
+
+.hero-content h2 {
+    font-size: 1.5rem;
+    color: #a3a3a3;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+    max-width: 600px;
+    line-height: 1.6;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.highlight {
+    color: #dd3941;
+}
+
+/* Call to Action Group Buttons */
+.cta-group {
+    display: flex;
+    padding-top: 0;
+    gap: 1.5rem;
+    justify-content: center;
+    
+}
+
+.cta-btn {
+    display: inline-block;
+    background-color: transparent;
+    color: #fff;
+    text-decoration: none;
+     border: 2px solid #909c9c;
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.cta-btn:hover {
+    background-color: #a10909;
+    transform: translateY(-2px);
+
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid #818787;
+    color: #eae2ec;
+}
+
+.btn-secondary:hover {
+    background-color: #962131;
+    color: #fff;
+}
+
+/* Standard Portfolio Sections Styling */
+.info-section {
+    position: relative;
+    padding: 5.5rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--surface-border);
+    background-image:
+        repeating-linear-gradient(135deg, rgba(221, 57, 65, 0.035) 0px, rgba(221, 57, 65, 0.035) 1px, transparent 1px, transparent 48px),
+        radial-gradient(ellipse at 50% 0%, rgba(221, 57, 65, 0.06), transparent 60%);
+}
+
+.info-section > * {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info-section .eyebrow {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.info-section h2 {
+    font-size: 2.2rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.info-section h2::after {
+    content: '';
+    display: block;
+    width: 46px;
+    height: 3px;
+    background: var(--crimson);
+    margin: 0.7rem auto 0 auto;
+}
+
+.info-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   SKILLS GRID
+   ========================================== */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 1rem;
+}
+
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.3rem;
+    background-color: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.skill-tag:hover {
+    border-color: var(--crimson);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(221, 57, 65, 0.15);
+}
+
+.skill-tag .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--crimson);
+    flex-shrink: 0;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #1a1a1a;
+    color: #777;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    border-top: 1px solid #222831;
+}
+/* ==========================================
+   CONTACT SECTION LAYOUT
+   ========================================== */
+
+/* Spacing tweak for the subtitle description */
+.contact-subtitle {
+    margin-bottom: 3rem !important;
+}
+
+/* Flexbox Grid Container */
+.contact-container {
+    display: flex;
+    gap: 3rem;
+    text-align: left;
+    align-items: stretch;
+    flex-wrap: wrap; /* Automatically stacks on mobile devices */
+}
+
+/* Form block scaling */
+.contact-form {
+    flex: 2;
+    min-width: 300px;
+    background-color: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    padding: 2.25rem;
+}
+
+/* Contact information metadata card */
+.contact-info {
+    flex: 1;
+    min-width: 250px;
+    background-color: var(--surface);
+    padding: 2rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--crimson); /* Accent crimson border strip, matches hero highlight */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-info h3 {
+    color: var(--text-primary);
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+}
+
+.contact-info .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+.contact-info .info-row .icon {
+    color: var(--crimson);
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.contact-info p {
+    font-size: 1rem !important;
+    margin-bottom: 0;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ==========================================
+   FORM INPUT FIELDS
+   ========================================== */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #a3a3a3;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+/* Styling for both normal text inputs and textareas */
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 0.85rem;
+    background-color: var(--charcoal);
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Smooth glow effect when user clicks inside an input */
+.form-group input:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--crimson);
+    box-shadow: 0 0 0 3px var(--crimson-glow);
+}
+
+/* Prevents weird horizontal layout breaking when resizing textarea */
+.form-group textarea {
+    resize: vertical; 
+}
+
+/* Full-width button alignment, matches hero CTA styling */
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--crimson-deep);
+    border: 2px solid var(--crimson);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: var(--crimson);
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 640px) {
+    .hero-content h1 {
+        font-size: 2.1rem;
+    }
+    .hero-content h2 {
+        font-size: 1.15rem;
+    }
+    .navbar {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1.25rem 1.25rem;
+    }
+    .nav-links {
+        gap: 0.25rem;
+    }
+    .nav-links li {
+        margin-left: 0.9rem;
+    }
+    .info-section {
+        padding: 3.5rem 1.25rem;
+    }
+    .contact-container {
+        gap: 1.5rem;
+    }
+}
