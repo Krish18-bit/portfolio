@@ -19,15 +19,27 @@
     --text-dim: #7a7a7a;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--charcoal);
     color: #e0e0e0;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    display: block;
 }
 
 /* Base container: Displays the BLURRED/FADED image */
 .hero {
     position: relative;
     min-height: 100vh; /* Changed to full viewport height */
+    min-height: 100svh; /* Accounts for mobile browser UI bars */
     width: 100%;
     display: flex;
     flex-direction: column; /* Stacks navbar on top of content */
@@ -78,11 +90,12 @@ body {
     align-items: center;
     padding: 1.5rem 2rem;
     position: relative;
-    z-index: 2; /* Sits on top of background layer */
+    z-index: 20; /* Sits on top of background layer and mobile menu */
+    flex-wrap: wrap;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 1rem + 1vw, 1.5rem);
     font-weight: bold;
     letter-spacing: 0.02em;
     color: var(--text-primary);
@@ -113,6 +126,42 @@ body {
     color: var(--crimson);
 }
 
+/* Hamburger menu button (hidden on desktop) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 21;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-toggle.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 /* Content Container */
 .hero-content {
     position: relative;
@@ -122,11 +171,14 @@ body {
     align-items: flex-start;
     text-align: center;
     min-height: 100%;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: clamp(2rem, 1.4rem + 3vw, 3rem);
     margin-bottom: 0.5rem;
     color: #ffffff;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
@@ -134,19 +186,21 @@ body {
 }
 
 .hero-content h2 {
-    font-size: 1.5rem;
+    font-size: clamp(1.05rem, 0.9rem + 0.75vw, 1.5rem);
     color: #a3a3a3;
     margin-bottom: 0.5rem;
     font-weight: 400;
 }
 
 .hero-content p {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.1rem);
     margin-bottom: 2rem;
     color: #e0e0e0;
     max-width: 600px;
     line-height: 1.6;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .highlight {
@@ -159,6 +213,7 @@ body {
     padding-top: 0;
     gap: 1.5rem;
     justify-content: center;
+    flex-wrap: wrap;
     
 }
 
@@ -173,6 +228,7 @@ body {
     font-weight: bold;
     border-radius: 10px;
     transition: background 0.3s, transform 0.2s;
+    text-align: center;
 }
 
 .cta-btn:hover {
@@ -421,31 +477,170 @@ body {
     transform: translateY(-2px);
 }
 
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.form-status {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    min-height: 1.2em;
+}
+
+.form-status--success {
+    color: #4caf7d;
+}
+
+.form-status--error {
+    color: var(--crimson);
+}
+
 /* ==========================================
    RESPONSIVE
    ========================================== */
+
+/* Large tablets / small laptops */
+@media (max-width: 1024px) {
+    .hero-content {
+        max-width: 720px;
+    }
+    .info-section > * {
+        max-width: 720px;
+    }
+}
+
+/* Tablets and small tablets: switch to hamburger nav */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: rgba(17, 20, 26, 0.97);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--surface-border);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease;
+        z-index: 15;
+    }
+
+    .nav-links.open {
+        max-height: 320px;
+        opacity: 1;
+        padding: 0.5rem 0 1rem;
+    }
+
+    .nav-links li {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 0.85rem 1.5rem;
+        font-size: 1.05rem;
+    }
+
+    .hero-content {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .contact-container {
+        flex-direction: column;
+    }
+
+    .contact-form,
+    .contact-info {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+/* Phones */
 @media (max-width: 640px) {
     .hero-content h1 {
-        font-size: 2.1rem;
+        font-size: clamp(1.75rem, 1.4rem + 4vw, 2.1rem);
     }
     .hero-content h2 {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
+    }
+    .hero-content p {
+        font-size: 0.95rem;
     }
     .navbar {
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 1.25rem 1.25rem;
-    }
-    .nav-links {
-        gap: 0.25rem;
-    }
-    .nav-links li {
-        margin-left: 0.9rem;
+        padding: 1rem 1.25rem;
     }
     .info-section {
-        padding: 3.5rem 1.25rem;
+        padding: 3rem 1.25rem;
+    }
+    .info-section h2 {
+        font-size: 1.7rem;
+    }
+    .info-section p {
+        font-size: 1.05rem;
     }
     .contact-container {
         gap: 1.5rem;
+    }
+    .contact-form,
+    .contact-info {
+        padding: 1.5rem;
+    }
+    .cta-group {
+        width: 100%;
+        gap: 0.9rem;
+    }
+    .cta-btn {
+        flex: 1 1 auto;
+        min-width: 140px;
+    }
+    .skills-grid {
+        gap: 0.6rem;
+    }
+    .skill-tag {
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+    .hero-content {
+        padding: 2rem 1rem;
+    }
+    .cta-group {
+        flex-direction: column;
+    }
+    .cta-btn {
+        width: 100%;
+    }
+    .logo {
+        font-size: 1.15rem;
+    }
+}
+
+/* Larger screens: prevent hero content from feeling lost on ultra-wide monitors */
+@media (min-width: 1600px) {
+    .hero-content {
+        max-width: 1000px;
+    }
+    .info-section > * {
+        max-width: 1000px;
     }
 }

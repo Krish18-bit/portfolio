@@ -15,8 +15,13 @@
         <div class="bg-layer" id="bgLayer"></div>
          <header class="navbar">
         <div class="logo">DevPortfolio</div>
-        <nav>
-            <ul class="nav-links">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="siteNav">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -63,7 +68,7 @@
         <h2>Contact Me</h2>
         <p class="contact-subtitle">Have a project in mind or just want to say hi? Send a message below.</p>
         <div class="contact-container">
-            <form class="contact-form">
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/mjybgann" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -76,7 +81,10 @@
                     <label for="message">Message</label>
                     <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
                 </div>
+                <!-- Honeypot field to reduce spam (kept hidden from real users) -->
+                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                 <button type="submit" class="submit-btn">Send Message</button>
+                <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
             </form>
             <div class="contact-info">
                 <h3>Get in touch</h3>
